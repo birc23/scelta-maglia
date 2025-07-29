@@ -59,14 +59,14 @@
     </div>
 
     <script>
-        let selectedNumbers = JSON.parse(localStorage.getItem('selectedNumbers')) || [];
-        function populateNumberSelect() {
-            const selectElement = document.getElementById('numberSelect');
+         selectedNumbers = JSON.parse(localStorage.getItem('selectedNumbers')) || [];
+         populateNumberSelect() {
+             selectElement = document.getElementById('numberSelect');
             selectElement.innerHTML = '<option value="">Seleziona un numero</option>'; // Opzione predefinita
 
-            for (let i = 1; i <= 99; i++) {
-                if (!selectedNumbers.includes(i)) {
-                    const option = document.createElement('option');
+             ( i = 1; i <= 99; i++) {
+                 (!selectedNumbers.includes(i)) {
+                     option = document.createElement('option');
                     option.value = i;
                     option.textContent = i;
                     selectElement.appendChild(option);
@@ -76,26 +76,26 @@
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Impedisce il ricaricamento della pagina
 
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            const selectedNumber = parseInt(document.getElementById('numberSelect').value);
-            const messageDiv = document.getElementById('message');
+           firstName = document.getElementById('firstName').value.trim();
+        lastName = document.getElementById('lastName').value.trim();
+            selectedNumber = parseInt(document.getElementById('numberSelect').value);
+        messageDiv = document.getElementById('message');
             messageDiv.style.display = 'none';
             messageDiv.className = '';
             messageDiv.textContent = '';
 
-            if (!firstName || !lastName || !selectedNumber) {
+           (!firstName || !lastName || !selectedNumber) {
                 messageDiv.textContent = 'Per favore, compila tutti i campi.';
                 messageDiv.className = 'error';
                 messageDiv.style.display = 'block';
-                return;
+                ;
             }
 
-            if (selectedNumbers.includes(selectedNumber)) {
+         (selectedNumbers.includes(selectedNumber)) {
                 messageDiv.textContent = `Il numero ${selectedNumber} è già stato selezionato. Per favore, scegli un altro numero.`;
                 messageDiv.className = 'error';
                 messageDiv.style.display = 'block';
-                return;
+                ;
             }
             selectedNumbers.push(selectedNumber);
             localStorage.setItem('selectedNumbers', JSON.stringify(selectedNumbers)); // Salva in localStorage
