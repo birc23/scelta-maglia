@@ -40,32 +40,90 @@
   </style>
 </head>
 <body>
-    <form action="https://formspree.io/f/mgvzypqj" method="POST">
-        <h2>Modulo di Selezione</h2>
-        <div>
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="Nome" required>
-        </div>
-        <div>
-            <label for="cognome">Cognome:</label>
-            <input type="text" id="cognome" name="Cognome" required>
-        </div>
-        <div>
-            <label for="numero">Seleziona un numero (1-99):</label>
-            <select id="numero" name="Numero" required>
-                <option value="">Seleziona...</option>
-                <script>
-                    const select = document.getElementById('numero');
-                    for (let i = 1; i <= 99; i++) {
-                        const option = document.createElement('option');
-                        option.value = i;
-                        option.textContent = i;
-                        select.appendChild(option);
-                    }
-                </script>
-            </select>
-        </div>
-        <button type="submit">Invia</button>
-    </form>
+    <div class="container">
+        <h2>Modulo di Iscrizione e Selezione Numero</h2>
+        <form id="registrationForm">
+            <label for="firstName">Nome:</label>
+            <input type="text" id="firstName" name="firstName" required>
+
+            <label for="lastName">Cognome:</label>
+            <input type="text" id="lastName" name="lastName" required>
+
+            <label for="numberSelect">Seleziona un numero (1-99):</label>
+            <select id="numberSelect" name="numberSelect" required>
+                </select>
+
+            <button type="submit">Invia</button>
+            <div id="message"></div>
+        </form>
+    </div>
+
+    <script>
+        // Array per tenere traccia dei numeri già presi
+        let selectedNumbers = JSON.parse(localStorage.getItem('selectedNumbers')) || [];
+
+        // Funzione per popolare il dropdown dei numeri
+        function populateNumberSelect() {
+            const selectElement = document.getElementById('numberSelect');
+            selectElement.innerHTML = '<option value="">Seleziona un numero</option>'; // Opzione predefinita
+
+            for (let i = 1; i <= 99; i++) {
+                if (!selectedNumbers.includes(i)) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    selectElement.appendChild(option);
+                }
+            }
+        }
+
+        // Funzione per gestire l'invio del modulo
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impedisce il ricaricamento della pagina
+
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const selectedNumber = parseInt(document.getElementById('numberSelect').value);
+            const messageDiv = document.getElementById('message');
+
+            // Reset del messaggio
+            messageDiv.style.display = 'none';
+            messageDiv.className = '';
+            messageDiv.textContent = '';
+
+            if (!firstName || !lastName || !selectedNumber) {
+                messageDiv.textContent = 'Per favore, compila tutti i campi.';
+                messageDiv.className = 'error';
+                messageDiv.style.display = 'block';
+                return;
+            }
+
+            if (selectedNumbers.includes(selectedNumber)) {
+                messageDiv.textContent = `Il numero ${selectedNumber} è già stato selezionato. Per favore, scegli un altro numero.`;
+                messageDiv.className = 'error';
+                messageDiv.style.display = 'block';
+                return;
+            }
+
+            // Aggiungi il numero all'elenco dei numeri selezionati
+            selectedNumbers.push(selectedNumber);
+            localStorage.setItem('selectedNumbers', JSON.stringify(selectedNumbers)); // Salva in localStorage
+
+            // Aggiorna il dropdown
+            populateNumberSelect();
+
+            // Mostra messaggio di successo
+            messageDiv.textContent = `Registrazione di ${firstName} ${lastName} con il numero ${selectedNumber} avvenuta con successo!`;
+            messageDiv.className = 'success';
+            messageDiv.style.display = 'block';
+
+            // Resetta il modulo
+            document.getElementById('registrationForm').reset();
+            document.getElementById('numberSelect').value = ''; // Resetta la selezione del numero
+        });
+
+        // Inizializza il dropdown all'apertura della pagina
+        document.addEventListener('DOMContentLoaded', populateNumberSelect);
+    </script>
 </body>
 </html>
