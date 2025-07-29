@@ -59,10 +59,7 @@
     </div>
 
     <script>
-        // Array per tenere traccia dei numeri già presi
         let selectedNumbers = JSON.parse(localStorage.getItem('selectedNumbers')) || [];
-
-        // Funzione per popolare il dropdown dei numeri
         function populateNumberSelect() {
             const selectElement = document.getElementById('numberSelect');
             selectElement.innerHTML = '<option value="">Seleziona un numero</option>'; // Opzione predefinita
@@ -76,8 +73,6 @@
                 }
             }
         }
-
-        // Funzione per gestire l'invio del modulo
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Impedisce il ricaricamento della pagina
 
@@ -85,8 +80,6 @@
             const lastName = document.getElementById('lastName').value.trim();
             const selectedNumber = parseInt(document.getElementById('numberSelect').value);
             const messageDiv = document.getElementById('message');
-
-            // Reset del messaggio
             messageDiv.style.display = 'none';
             messageDiv.className = '';
             messageDiv.textContent = '';
@@ -104,25 +97,15 @@
                 messageDiv.style.display = 'block';
                 return;
             }
-
-            // Aggiungi il numero all'elenco dei numeri selezionati
             selectedNumbers.push(selectedNumber);
             localStorage.setItem('selectedNumbers', JSON.stringify(selectedNumbers)); // Salva in localStorage
-
-            // Aggiorna il dropdown
             populateNumberSelect();
-
-            // Mostra messaggio di successo
             messageDiv.textContent = `Registrazione di ${firstName} ${lastName} con il numero ${selectedNumber} avvenuta con successo!`;
             messageDiv.className = 'success';
             messageDiv.style.display = 'block';
-
-            // Resetta il modulo
             document.getElementById('registrationForm').reset();
             document.getElementById('numberSelect').value = ''; // Resetta la selezione del numero
         });
-
-        // Inizializza il dropdown all'apertura della pagina
         document.addEventListener('DOMContentLoaded', populateNumberSelect);
     </script>
 </body>
