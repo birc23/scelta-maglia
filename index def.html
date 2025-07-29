@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modulo di Registrazione</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        form { max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        div { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <form action="https://formspree.io/f/mgvzypqj" method="POST">
+        <h2>Modulo di Selezione</h2>
+        <div>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="Nome" required>
+        </div>
+        <div>
+            <label for="cognome">Cognome:</label>
+            <input type="text" id="cognome" name="Cognome" required>
+        </div>
+        <div>
+            <label for="numero">Seleziona un numero (1-99):</label>
+            <select id="numero" name="Numero" required>
+                <option value="">Seleziona...</option>
+                <script>
+                    const select = document.getElementById('numero');
+                    for (let i = 1; i <= 99; i++) {
+                        const option = document.createElement('option');
+                        option.value = i;
+                        option.textContent = i;
+                        select.appendChild(option);
+                    }
+                </script>
+            </select>
+        </div>
+        <button type="submit">Invia</button>
+    </form>
+</body>
+</html>
